@@ -21,5 +21,10 @@
             android:label="@string/title_activity_main_activity2" >
         </activity>
     </application>
+    <uses-sdk
+        android:minSdkVersion="20"
+        android:targetSdkVersion="22"
+        android:maxSdkVersion="22"/>
+
 
 </manifest>

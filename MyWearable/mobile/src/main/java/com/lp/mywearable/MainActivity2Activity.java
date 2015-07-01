@@ -1,17 +1,24 @@
 package com.lp.mywearable;
 
+import android.content.Intent;
+import android.support.v4.app.RemoteInput;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 
 public class MainActivity2Activity extends ActionBarActivity {
+
+    TextView textView ;
+    String mReply ="" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_activity2);
+        textView = (TextView) findViewById(R.id.reply_textview);
     }
 
     @Override
@@ -19,6 +26,17 @@ public class MainActivity2Activity extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main_activity2, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        getRemoteInputMessage();
+
+        if(mReply != null&& !mReply.equals("")){
+            textView.setText(mReply);
+        }
     }
 
     @Override
@@ -35,4 +53,17 @@ public class MainActivity2Activity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public String getRemoteInputMessage(){
+
+        Intent intent = getIntent();
+        Bundle remoteInputBundle = RemoteInput.getResultsFromIntent(intent);
+        if (remoteInputBundle != null) {
+            mReply = remoteInputBundle.getString(MainActivity.EXTRA_VOICE_REPLY);
+        }
+
+        return mReply;
+    }
+
+
 }

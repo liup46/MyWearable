@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.support.v4.app.RemoteInput;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,8 @@ public class MainActivity extends Activity {
     public static int notificationId = 001;
 
     public static String EXTRA_EVENT_ID = "First notification";
+
+    public static final String EXTRA_VOICE_REPLY = "extra_voice_reply";
 
     Button button1 ;
 
@@ -61,6 +64,18 @@ public class MainActivity extends Activity {
 
         notificationBuilder.addAction(R.drawable.ic_fab_start_chat_default, getString(R.string.notification_action1), pIntenAction1);
 
+
+        NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
+        bigTextStyle.bigText(getString(R.string.bigtextstyle1));
+        notificationBuilder.setStyle(bigTextStyle);
+
+        android.support.v4.app.RemoteInput remoteInput = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(getString(R.string.remoteinput1))
+                .setChoices(getResources().getStringArray(R.array.remoteinput_choice)).build();
+
+        NotificationCompat.Action action1 = new NotificationCompat.Action.Builder(R.drawable.ic_stat_app_call, getString(R.string.notification_action_remoteinput), pIntenAction1)
+                .addRemoteInput(remoteInput).build();
+
+        notificationBuilder.extend(new NotificationCompat.WearableExtender().addAction(action1));
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(notificationId, notificationBuilder.build());
